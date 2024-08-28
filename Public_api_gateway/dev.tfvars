@@ -1,0 +1,12 @@
+region                                          = "us-west-2"               ## aws region to deploy the API gateway service
+apigateway_domain_name                          = "dev-api.com"             ## API Gateway custom domain name
+project                                         = "poc"                     ## name of the project
+env                                             = "dev"                     ## name of the environment
+apigateway_domain_application_mapping_path      = "dev"                     ## path of the api gateway domain
+application_api_url                             = "https://dev-app.com"     ## back url to integrate the application (probably the cname mapped to LB endpoint)
+api_logging_level                               = "INFO"                    ## API Logging level ex: INFO, ERROR                    
+access_control_allow_origin                     = "*"                       ## any restriction to cors enable    
+api_throttling_burst_limit                      = "5000"                    ## burst limit in ms
+use_api_allowed_ips                             = true                      ## whether to use allowed ips config
+api_throttling_rate_limit                       = "10000"                   ## no. of requests allowed per sec#
+endpoint_configuration_type                     = "REGIONAL"                ## API Gateway type  ex: REGIONAL, HTTP, PRIVATE

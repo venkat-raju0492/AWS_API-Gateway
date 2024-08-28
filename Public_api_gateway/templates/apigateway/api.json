@@ -1,0 +1,116 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "2020-02-04T06:35:50Z",
+      "title": "${project}-apigateway-${env}"
+    },
+    "host": "${apigateway_domain_name}",
+    "basePath": "/${mapping_path}",
+    "schemes": [
+      "https"
+    ],
+    "securityDefinitions": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      }
+    },
+    "paths": {
+      "/{proxy+}": {
+        "options": {
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "schema": {
+                "$ref": "#/definitions/Empty"
+              },
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "type": "string"
+                },
+                "Access-Control-Allow-Methods": {
+                  "type": "string"
+                },
+                "Access-Control-Allow-Headers": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'",
+                  "method.response.header.Access-Control-Allow-Headers": "'x-api-key,x-api-location,access-control-allow-origin,cache-control,expires,usequerystring,x-rapidapi-ua,authorization,Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method, Access-Control-Request-Headers,pragma,X-Amz-Security-Token,X-Amz-Date'",
+                  "method.response.header.Access-Control-Allow-Origin": "${access_control_allow_origin}"
+                }
+              }
+            },
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "passthroughBehavior": "when_no_match",
+            "type": "mock"
+          }
+        },
+        "x-amazon-apigateway-any-method": {
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "proxy",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {},
+          "security": [
+            {
+              "api_key": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "${application_api_url}/{proxy}",
+            "responses": {
+              "default": {
+                "statusCode": "200"
+              }
+            },
+            "requestParameters": {
+              "integration.request.path.proxy": "method.request.path.proxy"
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "ANY",
+            "cacheKeyParameters": [
+              "method.request.path.proxy"
+            ],
+            "type": "http_proxy"
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Empty": {
+        "type": "object",
+        "title": "Empty Schema"
+      }
+    }
+  }
+  
