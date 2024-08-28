@@ -29,7 +29,7 @@ data "template_file" "api_swagger_config" {
 }
 
 module "APIGateway" {
-  source                                     = "../modules/api_gateway/"
+  source                                     = "./modules/api_gateway/"
   project                                    = var.project
   env                                        = var.env
   apigateway_domain_name                     = var.apigateway_domain_name

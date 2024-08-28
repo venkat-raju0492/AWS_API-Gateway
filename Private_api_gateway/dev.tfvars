@@ -1,0 +1,10 @@
+region                       = "us-west-2"                                                                                  ## AWS region to deploy private api gateway
+project                      = "poc"                                                                                        ## name of the project
+environment                  = "dev"                                                                                        ## nameof the environment
+cost_category                = "project"                                                                                    ## name tag for cost category
+vpc_endpoint                 = "vpc-********"                                                                               ## vpc endpoint for API gateway
+base_path                    = "dev"                                                                                        ## base path for URL ex: https://<api ID>-<vpc endpoint ID>.execute-api.<region>.amazonaws.com/<base path>/api/v1
+lb_target_arn                = "arn:aws:elasticloadbalancing:<region>:<aws account id>:loadbalancer/net/XXXXXXXXXX"         ## network private load balancer ARN with target hosts
+logging_level                = "INFO"                                                                                       ## API Logging level ex: INFO, ERROR                    
+api_throttling_burst_limit   = "5000"                                                                                       ## burst limit in ms
+api_throttling_rate_limit    = "10000"                                                                                      ## no. of requests allowed per sec#

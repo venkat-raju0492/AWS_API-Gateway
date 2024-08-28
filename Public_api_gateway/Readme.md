@@ -1,6 +1,7 @@
 ## API Gateway setup with terraform 
 
 Public api gateway with custom domain path mapping
+Public api gateway gets to integrate with WAF as well as can restrict the Ips to allow access in resource policy
 API Gateway integration with Load balancer endpoint with cname mapping
 CORS enabled
 burst limit, rate limit also configured

@@ -1,0 +1,63 @@
+{
+    "swagger" : "2.0",
+    "info" : {
+      "version" : "2023-03-27T18:26:53Z",
+      "title" : "${var.project}-api_gateway-pvt-${var.environment}"
+    },
+    "host" : "${var.project}-api_gateway-pvt-${var.environment}",
+    "basePath" : "/${base_path}",
+    "schemes" : [ "https" ],
+    "paths" : {
+      "/{proxy+}" : {
+        "x-amazon-apigateway-any-method" : {
+          "parameters" : [ {
+            "name" : "proxy",
+            "in" : "path",
+            "required" : true,
+            "type" : "string"
+          } ],
+          "responses" : { },
+          "security" : [],
+          "x-amazon-apigateway-integration" : {
+            "type" : "http_proxy",
+            "connectionId" : "${vpc_connection_id}",
+            "httpMethod" : "ANY",
+            "uri" : "https://${lb_endpoint}/{proxy}",
+            "responses" : {
+              "default" : {
+                "statusCode" : "200"
+              }
+            },
+            "requestParameters" : {
+              "integration.request.path.proxy" : "method.request.path.proxy"
+            },
+            "passthroughBehavior" : "when_no_match",
+            "connectionType" : "VPC_LINK",
+            "cacheKeyParameters" : [ "method.request.path.proxy" ]
+          }
+        }
+      }
+    },
+    "x-amazon-apigateway-policy" : {
+      "Version" : "2012-10-17",
+      "Statement" : [ {
+        "Effect" : "Allow",
+        "Principal" : "*",
+        "Action" : "execute-api:Invoke",
+        "Resource" : "execute-api:/*",
+        "Condition" : {
+          "StringNotEquals" : {
+            "aws:aws:SourceVpce" : "${vpc_endpoint}"
+          }
+        }
+      }, {
+        "Effect" : "Allow",
+        "Principal" : "*",
+        "Action" : "execute-api:Invoke",
+        "Resource" : "execute-api:/*"
+      } ]
+    },
+    "x-amazon-apigateway-endpoint-configuration" : {
+        "vpcEndpointIds" : [ "${vpc_endpoint}" ]
+    }
+}
