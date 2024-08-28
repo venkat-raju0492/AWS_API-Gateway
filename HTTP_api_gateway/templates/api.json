@@ -1,0 +1,95 @@
+{
+    "openapi" : "3.0.1",
+    "info" : {
+      "title" : "${project}-apigateway-${env}",
+      "description" : "HTTP API for nextgen oms order service",
+      "version" : "2021-12-21 06:28:53UTC"
+    },
+    "servers" : [ {
+      "url" : "https://{domain_name}/${api_path_mapping}/{basePath}",
+      "variables" : {
+        "basePath" : {
+          "default" : "${stage_name}"
+        }
+      }
+    } ],
+    "tags" : [ {
+      "name" : "Project",
+      "x-amazon-apigateway-tag-value" : "${project}"
+    }, {
+      "name" : "Environment",
+      "x-amazon-apigateway-tag-value" : "${environment}"
+    }, {
+      "name" : "CreatedBy",
+      "x-amazon-apigateway-tag-value" : "Terraform"
+    }, {
+      "name" : "CostCategory",
+      "x-amazon-apigateway-tag-value" : "${cost_category}"
+    }, {
+      "name" : "Name",
+      "x-amazon-apigateway-tag-value" : "${project}-apigateway-${environment}"
+    } ],
+    "paths" : {
+      "/" : {
+        "x-amazon-apigateway-any-method" : {
+          "responses" : {
+            "default" : {
+              "description" : "Default response for ANY /"
+            }
+          },
+          "security" :  ],
+          "x-amazon-apigateway-integration" : {
+            "requestParameters" : {
+              "overwrite:path" : "$request.path"
+            },
+            "payloadFormatVersion" : "1.0",
+            "connectionId" : "${vpc_link_id}",
+            "type" : "http_proxy",
+            "httpMethod" : "ANY",
+            "uri" : "${alb_listener}",
+            "connectionType" : "VPC_LINK"
+          }
+        }
+      },
+      "/actuator/health" : {
+        "get" : {
+          "responses" : {
+            "default" : {
+              "description" : "Default response for GET /actuator/health"
+            }
+          },
+          "x-amazon-apigateway-integration" : {
+            "requestParameters" : {
+              "overwrite:path" : "$request.path"
+            },
+            "payloadFormatVersion" : "1.0",
+            "connectionId" : "${vpc_link_id}",
+            "type" : "http_proxy",
+            "httpMethod" : "ANY",
+            "uri" : "${alb_listener}",
+            "connectionType" : "VPC_LINK"
+          }
+        }
+      },
+      "/v3/api-docs" : {
+        "get" : {
+          "responses" : {
+            "default" : {
+              "description" : "Default response for GET /v3/api-docs"
+            }
+          },
+          "x-amazon-apigateway-integration" : {
+            "requestParameters" : {
+              "overwrite:path" : "$request.path"
+            },
+            "payloadFormatVersion" : "1.0",
+            "connectionId" : "${vpc_link_id}",
+            "type" : "http_proxy",
+            "httpMethod" : "ANY",
+            "uri" : "${alb_listener}",
+            "connectionType" : "VPC_LINK"
+          }
+        }
+      }
+    }
+}

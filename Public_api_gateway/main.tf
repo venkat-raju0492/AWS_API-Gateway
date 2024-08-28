@@ -10,8 +10,18 @@ provider "aws" {
   version = "3.71.0"
 }
 
-local {
+data "aws_caller_identity" "current" {}
+
+locals {
+  account_id                     = data.aws_caller_identity.current.account_id
+  common_tags = {
+    Project                     = var.project
+    Environment                 = var.environment
+    CreatedBy                   = "Terraform"
+    CostCategory                = var.cost_category
+  }
 }
+
 
 data "template_file" "api_swagger_config" {
   template = file("./templates/apigateway/api.json")
